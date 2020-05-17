@@ -1,0 +1,60 @@
+{
+  "_from": "https://github.com/jqwidgets/Cinema-react/tarball/master",
+  "_id": "Cinema-react@8.1.4",
+  "_inBundle": false,
+  "_integrity": "sha512-JxxUWJq/syGP2mo3qYafVOk6Z+RDRDQ21u7RNeNRHD0sVlPLsESJwWx3VHFOcXz0xMTaZZef9JtjLtnUCFCkJA==",
+  "_location": "/Cinema-react/Cinema-react",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "remote",
+    "raw": "Cinema-react@https://github.com/jqwidgets/Cinema-react/tarball/master",
+    "name": "Cinema-react",
+    "escapedName": "Cinema-react",
+    "rawSpec": "https://github.com/jqwidgets/Cinema-react/tarball/master",
+    "saveSpec": "https://github.com/jqwidgets/Cinema-react/tarball/master",
+    "fetchSpec": "https://github.com/jqwidgets/Cinema-react/tarball/master"
+  },
+  "_requiredBy": [],
+  "_resolved": "https://github.com/jqwidgets/Cinema-react/tarball/master",
+  "_shasum": "24fdbdcd5eac179f4c68f987bbc88f0986a6b8bb",
+  "_spec": "Cinema-react@https://github.com/jqwidgets/Cinema-react/tarball/master",
+  "_where": "C:\\Users\\a.misljenovic\\AppData\\Roaming\\npm\\node_modules\\Cinema-react",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@types/jest": "24.0.15",
+    "@types/node": "12.0.8",
+    "@types/react": "16.8.20",
+    "@types/react-dom": "16.8.4",
+    "jqwidgets-scripts": "^8.1.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "3.0.1",
+    "typescript": "3.5.2"
+  },
+  "deprecated": false,
+  "description": "Please refer to its documentation:   - [Getting Started](https://github.com/jqwidgets/Cinema-react/blob/master/README.md#getting-started)    - [jQWidgets React TSX Documentation](http://www.jqwidgets.com/reactjs-components-documentation/)",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "name": "Cinema-react",
+  "private": true,
+  "scripts": {
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "start": "react-scripts start",
+    "test": "react-scripts test"
+  },
+  "version": "8.1.4"
+}

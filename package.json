@@ -37,6 +37,7 @@
     "@types/node": "12.0.8",
     "@types/react": "16.8.20",
     "@types/react-dom": "16.8.4",
+    "bootstrap": "^4.4.1",
     "jqwidgets-scripts": "^8.1.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -56,5 +57,15 @@
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
-  "version": "8.1.4"
+  "version": "8.1.4",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.2.0",
+    "@typescript-eslint/parser": "^3.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^2.5.1"
+  }
 }

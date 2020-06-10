@@ -1,0 +1,12 @@
+footer {
+  background-color: #343a40!important;
+  margin-top: 2%;
+  display: flex;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.footer-paragraph {
+  font-size: 20px;
+  color: white;
+}

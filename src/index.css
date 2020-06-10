@@ -1,2 +1,21 @@
 @import '~jqwidgets-scripts/jqwidgets/styles/jqx.base.css';
 @import '~jqwidgets-scripts/jqwidgets/styles/jqx.material-purple.css';
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color:#c9c9c9;
+  margin: 0px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+

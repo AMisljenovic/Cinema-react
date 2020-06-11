@@ -23,7 +23,7 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx", ".ts"] }],
     "indent": ["error", 2, { "SwitchCase": 1, "VariableDeclarator": 1 }],
     "no-tabs": 0,
     "linebreak-style": 0,
@@ -39,6 +39,7 @@ module.exports = {
     "jsx-a11y/anchor-is-valid": 0,
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/click-events-have-key-events": 0,
-    "jsx-a11y/alt-text": 0
+    "jsx-a11y/alt-text": 0,
+    "max-len": ["error", { "code": 120 }]
   },
 };

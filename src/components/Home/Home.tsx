@@ -1,8 +1,10 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
 import JqxLoader from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxloader';
 import JqxScrollView from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxscrollview';
+import * as actions from '../../actions/movieActions';
 
-const Home = () => {
+const Home = ({ getMovies, movies }) => {
   // const movieIds: string[] = [
   //   '0fe4656a-4598-4f6f-9e7c-3f9347153a10',
   //   '13e6d16d-e8a9-4112-a3d0-fda72a846b17',
@@ -12,6 +14,10 @@ const Home = () => {
   // ];
 
   // TODO(AM): implement home page, add redux part
+
+  useEffect(() => {
+    getMovies();
+  }, []);
 
   const isServerDown = true;
 
@@ -39,4 +45,8 @@ const Home = () => {
   );
 };
 
-export default Home;
+const mapPropsToState = (state) => ({
+  movies: state.movies.movies,
+});
+
+export default connect(mapPropsToState, actions)(Home);

@@ -10,3 +10,7 @@ The page will reload if you make edits.
 Builds the app in production mode and stores it in the `build/` directory. <br />
 It correctly bundles React in production mode and optimizes the build for the best performance.  <br />
 By default, it also includes a service worker so that your app loads from local cache on future visits.
+
+## Running unit tests
+
+Run `npm run test` to execute the unit tests.

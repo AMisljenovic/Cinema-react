@@ -1,11 +1,11 @@
 import { GET_MOVIES, LOGS_ERROR } from './types';
 
-const url = 'https://localhost:44361/api';
+// const url = 'https://localhost:44361/api';
+const url = process.env.REACT_APP_API_URL;
 
 
 export const getMovies = () => async (dispatch) => {
   try {
-    debugger;
     const res = await fetch(`${url}/movies`);
     const data = await res.json();
 

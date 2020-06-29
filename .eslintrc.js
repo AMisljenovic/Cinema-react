@@ -40,6 +40,10 @@ module.exports = {
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/alt-text": 0,
-    "max-len": ["error", { "code": 120 }]
+    "max-len": ["error", { "code": 120 }],
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "arrow-parens": 0,
+    "object-curly-newline": 0,
+    "react/forbid-prop-types": 0
   },
 };

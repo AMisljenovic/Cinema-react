@@ -38,6 +38,7 @@
     "@types/react": "16.8.20",
     "@types/react-dom": "16.8.4",
     "bootstrap": "^4.4.1",
+    "env-cmd": "^10.1.0",
     "jqwidgets-scripts": "^8.1.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -56,9 +57,9 @@
   "name": "Cinema-react",
   "private": true,
   "scripts": {
-    "build": "react-scripts build",
+    "start": "env-cmd -e development react-scripts start",
+    "build": "env-cmd -e production react-scripts build",
     "eject": "react-scripts eject",
-    "start": "react-scripts start",
     "test": "react-scripts test"
   },
   "version": "8.1.4",

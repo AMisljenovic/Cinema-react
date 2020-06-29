@@ -44,6 +44,7 @@ module.exports = {
     "jsx-a11y/no-noninteractive-element-interactions": 0,
     "arrow-parens": 0,
     "object-curly-newline": 0,
-    "react/forbid-prop-types": 0
+    "react/forbid-prop-types": 0,
+    "global-require": 0
   },
 };

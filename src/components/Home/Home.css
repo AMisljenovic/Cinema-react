@@ -13,6 +13,7 @@
 #wrapper {
   display: flex;
   flex-direction: column;
+  background-color: #c9c9c9;
 }
 
 #list-box {
@@ -20,7 +21,7 @@
 }
 
 h1 {
-  margin-top: 30px;
+  margin-top: 27px;
 }
 
 .all-movies {
@@ -31,15 +32,10 @@ h1 {
   background-image: url("../../assets/slick.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  margin-bottom: 2%;
 }
 
 .all-movies-poster {
-  width: 150px;
-  height: 200px;
-  cursor: pointer;
-}
-
-.all-movies-poster-coming {
   width: 150px;
   height: 200px;
   cursor: pointer;

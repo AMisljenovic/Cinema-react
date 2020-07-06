@@ -16,7 +16,8 @@ export default (state = initalState, action) => {
       return {
         ...state,
         movies: action.payload,
-        announcedMovies: action.payload.filter(movie => movie.playing === false),
+        // TODO(am): remove movie from db
+        announcedMovies: action.payload.filter(movie => movie.playing === false).slice(0, 5),
         playingMovies: action.payload.filter(movie => movie.playing === true),
         loading: false,
       };

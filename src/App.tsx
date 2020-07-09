@@ -1,22 +1,27 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { useRoutes } from 'hookrouter';
 import { Header, Home, Footer } from './components';
 import store from './store';
+import MovieDetails from './components/MovieDetails/MovieDetails';
 
-const App = () => (
-  <Provider store={store}>
-    <Router>
+
+const routes = {
+  '/': () => <Home />,
+  '/home': () => <Home />,
+  '/movie-details/:id': () => <MovieDetails />,
+};
+const App = () => {
+  const routeResult = useRoutes(routes);
+
+
+  return (
+    <Provider store={store}>
       <Header />
-      <Switch>
-        <Route path="/home">
-          <Home />
-        </Route>
-      </Switch>
-
+      {routeResult}
       <Footer />
-    </Router>
-  </Provider>
-);
+    </Provider>
+  );
+};
 
 export default App;

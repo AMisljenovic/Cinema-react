@@ -1,6 +1,6 @@
 footer {
   background-color: #343a40!important;
-  display: flex;
+  display: flex !important;
   justify-content: center;
   flex-shrink: 0;
 }

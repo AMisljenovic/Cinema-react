@@ -19,7 +19,8 @@
     "noEmit": true,
     "jsx": "preserve",
     "noImplicitAny": false,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "baseUrl": "src"
   },
   "include": [
     "src"

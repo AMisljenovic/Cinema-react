@@ -22,6 +22,13 @@ module.exports = {
     'react',
     '@typescript-eslint',
   ],
+  settings: {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["node_modules", "src/"]
+      }
+    }
+  },
   rules: {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx", ".ts"] }],
     "indent": ["error", 2, { "SwitchCase": 1, "VariableDeclarator": 1 }],

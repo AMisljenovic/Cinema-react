@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { navigate } from 'hookrouter';
 import JqxLoader from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxloader';
 import JqxScrollView from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxscrollview';
 import PropTypes from 'prop-types';
-import * as actions from '../../actions/movieActions';
-import ImageDisplay from '../ImageDisplay/ImageDisplay';
+import ImageDisplay from '../../components/ImageDisplay/ImageDisplay';
 import './Home.css';
 
 
@@ -25,10 +23,6 @@ const Home = ({ getMovies, announcedMovies, playingMovies }) => {
       myLoader.current.close();
     }
   }, []);
-
-  const selectMovie = (event) => {
-    console.log(event);
-  };
 
   const toMovieDetails = id => {
     navigate(`/movie-details/${id}`);
@@ -73,11 +67,4 @@ Home.propTypes = {
   playingMovies: PropTypes.array.isRequired,
 };
 
-const mapPropsToState = (state) => ({
-  movies: state.movies.movies,
-  announcedMovies: state.movies.announcedMovies,
-  playingMovies: state.movies.playingMovies,
-  loading: state.movies.loading,
-});
-
-export default connect(mapPropsToState, actions)(Home);
+export default Home;

@@ -1,16 +1,29 @@
-import { GET_MOVIES, SET_LOADING } from '../actions/types';
-import Movie from '../models/movie.model';
+import Movie from 'models/movie.model';
+import { GET_MOVIES, SET_LOADING, GET_MOVIE } from '../actions/types';
 
 
 const initalState = {
   loading: false,
   movies: [],
-  movie: [],
+  selectedMovie: null,
   announcedMovies: [],
   playingMovies: [],
 };
 
-export default (state = initalState, action) => {
+type MoviesState = {
+  loading: boolean;
+  movies: Movie[];
+  selectedMovie: Movie | null;
+  announcedMovies: Movie[];
+  playingMovies: Movie[];
+}
+
+type Action = {
+  type: typeof GET_MOVIES | typeof SET_LOADING | typeof GET_MOVIE;
+  payload: any;
+}
+
+export default (state: MoviesState = initalState, action: Action): MoviesState => {
   switch (action.type) {
     case GET_MOVIES:
       return {
@@ -22,7 +35,14 @@ export default (state = initalState, action) => {
         loading: false,
       };
 
-    case SET_LOADING:
+    case GET_MOVIE:
+      return {
+        ...state,
+        selectedMovie: action.payload,
+        loading: false,
+      };
+
+    case 'SET_LOADING':
       return {
         ...state,
         loading: true,

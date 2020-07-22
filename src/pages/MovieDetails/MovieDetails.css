@@ -1,87 +1,88 @@
-#wrapper {
+#movie-details-wrapper {
   display: flex;
   flex-direction: column;
   margin-top: 4%;
 }
 
-h1 {
+#movie-details-wrapper h1 {
   align-self: center;
-  margin-bottom: 0.5%;
+  margin-bottom: 0.2%;
+  margin-top: 2%;
   color: #FFC700;
   -webkit-text-stroke-color: black;
   -webkit-text-stroke-width: thin;
 }
 
-#title {
+#movie-details-wrapper #title {
   display: flex;
   flex-direction: column;
   border-bottom-style: inset;
   border-color: black;
 }
 
-.plot {
+#movie-details-wrapper .plot {
   display: flex;
   flex-direction: row;
   margin-top: 2%;
 }
 
-.image-plot {
+#movie-details-wrapper .image-plot {
   display: flex;
   flex-direction: column;
   margin-left: 3%;
   flex-grow: 1;
 }
 
-.pg-rated-runtime {
+#movie-details-wrapper .pg-rated-runtime {
   margin-top: 1%;
   margin-bottom: 1%;
   align-self: center;
 }
 
-.poster {
+#movie-details-wrapper .poster {
   width: 300px;
   height: 400px;
 }
 
-.plot-header {
+#movie-details-wrapper .plot-header {
   margin-bottom: 1%;
 }
 
-.plot-text {
+#movie-details-wrapper .plot-text {
   width: 30%;
   margin-top: 3px;
   font-size: 18px;
   font-weight: bold;
 }
 
-.tickets {
+#movie-details-wrapper .tickets {
   display: flex;
   flex-direction: column;
   margin-right: 3%;
   flex-shrink: 0;
 }
 
-.buy-tickets {
+#movie-details-wrapper .buy-tickets {
   align-self: center;
   color: #FFC700;
   -webkit-text-stroke-color: black;
   -webkit-text-stroke-width: thin;
 }
 
-jqxGrid {
+#movie-details-wrapper .jqx-grid {
   margin-top: 3%;
 }
 
-jqxButton {
+#movie-details-wrapper .jqx-button {
   align-self: center;
   margin-top: 5%;
   cursor: pointer;
 }
 
-.movie-id-invalid {
+#movie-details-wrapper .movie-id-invalid {
   height: 100%;
 }
 
-.movie-id-invalid h1 {
+#movie-details-wrapper .movie-id-invalid h1 {
   margin-top: 8%;
 }

@@ -1,14 +1,14 @@
 import { GET_MOVIES, LOGS_ERROR, SET_LOADING, GET_MOVIE } from './types';
 
 // const url = 'https://localhost:44361/api';
-const url = process.env.REACT_APP_API_URL;
+const url = `${process.env.REACT_APP_API_URL}/movies`;
 
 
 export const getMovies = () => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch(`${url}/movies`);
+    const res = await fetch(url);
     const data = await res.json();
 
     dispatch({
@@ -28,7 +28,7 @@ export const getMovie = (id) => async (dispatch) => {
   try {
     setLoading();
 
-    const res = await fetch(`${url}/movies/${id}`);
+    const res = await fetch(`${url}/${id}`);
     const data = await res.json();
 
     dispatch({

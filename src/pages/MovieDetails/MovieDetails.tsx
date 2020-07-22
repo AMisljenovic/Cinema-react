@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { navigate } from 'hookrouter';
 import './MovieDetails.css';
 import JqxGrid, { jqx } from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxgrid';
 import JqxButton from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxbuttons';
@@ -6,7 +7,9 @@ import ImageDisplay from 'components/ImageDisplay/ImageDisplay';
 import WeekPlay from 'models/week-play.model';
 
 const dateNow = new Date();
+
 let dataAdapter: any;
+let offset: any;
 
 const source: any = [
   {
@@ -22,16 +25,18 @@ const source: any = [
   },
 ];
 
+const columns = [
+  { text: 'Day', datafield: 'day', width: 130 },
+  { text: 'First play', datafield: 'firstPlay' },
+  { text: 'Second play', datafield: 'secondPlay' },
+  { text: 'Thrid play', datafield: 'thirdPlay' },
+];
+
 
 const MovieDetails = ({ id, getMovie, selectedMovie, repertoires, getRepertoryByMovieId }) => {
-  const columns = [
-    { text: 'Day', datafield: 'day', width: 130 },
-    { text: 'First play', datafield: 'firstPlay' },
-    { text: 'Second play', datafield: 'secondPlay' },
-    { text: 'Thrid play', datafield: 'thirdPlay' },
-  ];
-
-  const showValues = true;
+  const [day, setDay] = useState<string | null>(null);
+  const [playTime, setPlayTime] = useState<string | null>(null);
+  const jqxGrid = useRef<JqxGrid>(null);
 
   useEffect(() => {
     getMovie(id);
@@ -43,12 +48,33 @@ const MovieDetails = ({ id, getMovie, selectedMovie, repertoires, getRepertoryBy
     }
   }, [selectedMovie]);
 
-  debugger;
+  const cellSelected = (event) => {
+    if (jqxGrid.current) {
+      const { rowindex, datafield } = event.args;
+      if (event.args.datafield === 'day') {
+        jqxGrid.current.unselectcell(rowindex, datafield);
+        setDay(null);
+        setPlayTime(null);
+        return;
+      }
+
+      setDay(rowindex);
+      const [first] = jqxGrid.current.getcelltext(rowindex, datafield).split(' ');
+      setPlayTime(first);
+    }
+  };
+
+  const seatsSelect = () => {
+    const repertory = repertoires.find(rep => rep.playTime === playTime && rep.day === (((day + offset) % 7) + 1));
+
+    navigate(`/hall/${repertory.hallId}/${repertory.id}`);
+  };
+
   if (selectedMovie && repertoires && repertoires.length > 0) {
     repertoryDataGrid(repertoires);
 
     return (
-      <div id="wrapper">
+      <div id="movie-details-wrapper">
         <div id="title">
           <h1>{selectedMovie.title}</h1>
           <h2 className="pg-rated-runtime">
@@ -77,22 +103,31 @@ const MovieDetails = ({ id, getMovie, selectedMovie, repertoires, getRepertoryBy
           <div className="tickets">
             <h1 className="buy-tickets">Reserve tickets online</h1>
             <JqxGrid
-              // className="jqx-grid"
+              ref={jqxGrid}
+              className="jqx-grid"
               source={dataAdapter}
               columns={columns}
-              showstatusbar={showValues}
-              autoheight={showValues}
+              showstatusbar={false}
+              columnsheight={50}
+              autoheight={true}
               editable={false}
               selectionmode="singlecell"
               showheader={false}
+              onCellselect={event => cellSelected(event)}
             />
-
             <JqxButton
+              className="jqx-button"
               template="inverse"
               roundedCorners="all"
               width="200"
               height="40"
               value="Click here to select seats"
+              disabled={!playTime}
+              onClick={() => {
+                if (playTime) {
+                  seatsSelect();
+                }
+              }}
             />
           </div>
           {selectedMovie.isMoviePlaying && (
@@ -117,7 +152,6 @@ const repertoryDataGrid = (repertoires) => {
   const saturday: WeekPlay = { day: 'Saturday', firstPlay: '', secondPlay: '', thirdPlay: '' };
   const sunday: WeekPlay = { day: 'Sunday', firstPlay: '', secondPlay: '', thirdPlay: '' };
 
-
   repertoires.forEach(rep => {
     switch (rep.day) {
       case 1: monday[timeOfPlay(rep.playTime)] = `${rep.playTime} - ${rep.price} din.`; break;
@@ -135,7 +169,7 @@ const repertoryDataGrid = (repertoires) => {
   const days = [monday, tuesday, wednesday, thursday, friday, saturday, sunday];
   const sourceData: WeekPlay[] = [];
 
-  let offset = dateNow.getDay() - 1;
+  offset = dateNow.getDay() - 1;
   offset = offset === -1 ? 6 : offset;
 
   for (let index = 0; index < 7; index++) {
@@ -154,13 +188,14 @@ const repertoryDataGrid = (repertoires) => {
   dataAdapter = new jqx.dataAdapter(source);
 };
 
-const timeOfPlay = (playTime: string) => {
-  if (+playTime.split(':')[0] < 9) {
+const timeOfPlay = (time) => {
+  if (+time.split(':')[0] < 9) {
     return 'firstPlay';
-  } if (+playTime.split(':')[0] < 16) {
+  } if (+time.split(':')[0] < 16) {
     return 'secondPlay';
   }
   return 'thirdPlay';
 };
+
 
 export default MovieDetails;

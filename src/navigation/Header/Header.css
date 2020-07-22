@@ -1,9 +1,5 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
-div[role=row] {
-  height: 150px !important;
-}
-
 .navbar {
   display: inline-flex;
 }
@@ -13,11 +9,11 @@ div[role=row] {
   font-size: 24px;
 }
 
-img {
+.navbar img {
   width: 150px;
   height: 60px;
 }
 
-a {
+.navbar a {
   cursor: pointer;
 }

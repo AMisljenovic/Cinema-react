@@ -52,6 +52,7 @@ module.exports = {
     "arrow-parens": 0,
     "object-curly-newline": 0,
     "react/forbid-prop-types": 0,
-    "global-require": 0
+    "global-require": 0,
+    "react/jsx-boolean-value": 0
   },
 };

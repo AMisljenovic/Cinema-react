@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { navigate } from 'hookrouter';
+import './Hall.css';
+import seatImageUrl from 'assets/seat.png';
 
 const source = [
   {
-    localdata: [] = [],
+    localdata: [],
     datatype: 'array',
     datafields:
     [
@@ -24,9 +27,69 @@ const columns = [
   { text: 'column3', datafield: 'column3', width: 120, cellsrenderer: imagerenderer },
   { text: 'column4', datafield: 'column4', width: 120, cellsrenderer: imagerenderer },
 ];
+const columnPropNames: string[] = [];
+
+let dataAdapter: any;
+
+const Hall = ({ hallId, repertoryId, getRepertoryById, getReservationsByRepertoryId,
+  getReservationsByRepertoryAndUserId, getHall, reservationStatusCode,
+  seats, userReservedSeats, repertory, hall }) => {
+  let user: any;
+
+  const redirectToLogin = () => {
+    alert('You are not authorized to access this page. You will be redirected to sign in page');
+    sessionStorage.removeItem('user');
+    navigate('/signin');
+  };
+
+  useEffect(() => {
+    const data = sessionStorage.getItem('user');
+    if (data === null) {
+      redirectToLogin();
+    }
+    user = JSON.parse(data || '{}');
+
+    getRepertoryById(repertoryId);
+    getReservationsByRepertoryId(repertoryId);
+    getReservationsByRepertoryAndUserId(repertoryId, user.id);
+    getHall(hallId);
+  }, []);
+
+  useEffect(() => {
+    if (reservationStatusCode === 401) {
+      redirectToLogin();
+    }
+  }, [reservationStatusCode]);
+
+  const hallrender = (hallProp) => {
+    for (let index = 0; index < hallProp.columns; index++) {
+      const columnPropName = `column${index}`;
+      columnPropNames.push(columnPropName);
+    }
+    const seatRender: string[] = [];
+    for (let index = 0; index < hallProp.rows; index++) {
+      const row = {
+        column0: seatImageUrl,
+        column1: seatImageUrl,
+        column2: seatImageUrl,
+        column3: seatImageUrl,
+        column4: seatImageUrl,
+      };
+
+      seatRender.push(row);
+    }
 
 
-const Hall = ({ hallId, repertoryId }) => {
+    source.localdata = seatRender;
+    dataAdapter = new jqx.dataAdapter(source);
+  };
+
+
+  if (seats.length > 0 && userReservedSeats.length > 0 && repertory && hall) {
+
+  }
+
+
   debugger;
   return <div />;
 };

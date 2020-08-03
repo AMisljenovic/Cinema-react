@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useRoutes } from 'hookrouter';
 import Hall from 'pages/Hall';
 import Signin from 'pages/SignIn';
+import ContactUs from 'pages/ContactUs/ContactUs';
 import MovieDetails from '../pages/MovieDetails';
 import Home from '../pages/Home';
-import Header from './Header/Header';
+import Header from './Header';
 import Footer from './Footer/Footer';
 
 const AppNavigation = () => {
@@ -14,16 +15,17 @@ const AppNavigation = () => {
     '/movie-details/:id': ({ id }) => <MovieDetails id={id} />,
     '/hall/:hallId/:repertoryId': ({ hallId, repertoryId }) => <Hall hallId={hallId} repertoryId={repertoryId} />,
     '/signin': () => <Signin />,
+    '/contact-us': () => <ContactUs />,
   };
 
   const routeResult = useRoutes(routes);
 
   return (
-    <>
+    <Fragment>
       <Header />
       {routeResult}
       <Footer />
-    </>
+    </Fragment>
   );
 };
 

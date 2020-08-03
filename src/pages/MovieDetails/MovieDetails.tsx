@@ -43,7 +43,7 @@ const MovieDetails = ({ id, getMovie, selectedMovie, repertoires, getRepertoryBy
   }, []);
 
   useEffect(() => {
-    if (selectedMovie) {
+    if (selectedMovie && selectedMovie.playing) {
       getRepertoryByMovieId(selectedMovie.id);
     }
   }, [selectedMovie]);
@@ -71,7 +71,9 @@ const MovieDetails = ({ id, getMovie, selectedMovie, repertoires, getRepertoryBy
   };
 
   if (selectedMovie && repertoires && repertoires.length > 0) {
-    repertoryDataGrid(repertoires);
+    if (selectedMovie.playing) {
+      repertoryDataGrid(repertoires);
+    }
 
     return (
       <div id="movie-details-wrapper">
@@ -100,37 +102,39 @@ const MovieDetails = ({ id, getMovie, selectedMovie, repertoires, getRepertoryBy
             <h2 className="plot-header">Cast</h2>
             <p className="plot-text">{selectedMovie.actors}</p>
           </div>
-          <div className="tickets">
-            <h1 className="buy-tickets">Reserve tickets online</h1>
-            <JqxGrid
-              ref={jqxGrid}
-              className="jqx-grid"
-              source={dataAdapter}
-              columns={columns}
-              showstatusbar={false}
-              columnsheight={50}
-              autoheight={true}
-              editable={false}
-              selectionmode="singlecell"
-              showheader={false}
-              onCellselect={event => cellSelected(event)}
-            />
-            <JqxButton
-              className="jqx-button"
-              template="inverse"
-              roundedCorners="all"
-              width="200"
-              height="40"
-              value="Click here to select seats"
-              disabled={!playTime}
-              onClick={() => {
-                if (playTime) {
-                  seatsSelect();
-                }
-              }}
-            />
-          </div>
-          {selectedMovie.isMoviePlaying && (
+          {selectedMovie.playing && (
+            <div className="tickets">
+              <h1 className="buy-tickets">Reserve tickets online</h1>
+              <JqxGrid
+                ref={jqxGrid}
+                className="jqx-grid"
+                source={dataAdapter}
+                columns={columns}
+                showstatusbar={false}
+                columnsheight={50}
+                autoheight={true}
+                editable={false}
+                selectionmode="singlecell"
+                showheader={false}
+                onCellselect={event => cellSelected(event)}
+              />
+              <JqxButton
+                className="jqx-button"
+                template="inverse"
+                roundedCorners="all"
+                width="200"
+                height="40"
+                value="Click here to select seats"
+                disabled={!playTime}
+                onClick={() => {
+                  if (playTime) {
+                    seatsSelect();
+                  }
+                }}
+              />
+            </div>
+          ) }
+          {!selectedMovie.playing && (
             <div className="tickets">
               <h1>Coming Soon</h1>
             </div>

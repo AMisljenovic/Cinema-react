@@ -1,0 +1,32 @@
+.sign-in {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin-left: 40%
+}
+
+.sign-in .password {
+  margin-top: 3%;
+}
+
+.sign-in h2 {
+  color: #FFC700;
+  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-width: thin;
+}
+
+.sign-in .confirm {
+  margin-top: 3%;
+  height: 50px;
+}
+
+.sign-in h4 {
+  color: red
+}
+
+.sign-in .new-user h2 {
+  text-decoration: underline;
+  color: purple;
+  cursor: pointer;
+}

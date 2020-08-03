@@ -1,0 +1,41 @@
+.contact-us {
+  display: flex;
+  flex-direction: column;
+  height: 120%;
+}
+
+.contact-us .ribbon {
+  margin-top: 8%;
+  width: 100%;
+  height: 90px;
+  background-color: #FFC700;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-us .ribbon span {
+  color: #c9c9c9;
+  font-size: 60px;
+  margin-left: 10%;
+}
+
+.contact-us h2 {
+  color: #FFC700;
+  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-width: thin;
+  margin-left: 3%;
+  font-size: 40px;
+}
+
+.contact-us pre {
+  font-size: 24px;
+  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-width: thin;
+  margin-top: 2%;
+  margin-left: 3%;
+  overflow: initial;
+}
+
+.contact-us .contact-us-color {
+  -webkit-text-fill-color: black;
+}

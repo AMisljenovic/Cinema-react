@@ -37,7 +37,7 @@ const Home = ({ getMovies, announcedMovies, playingMovies }) => {
     <div id="home-wrapper">
       <JqxScrollView className="scroll-view" slideShow={false} slideDuration={4000} width="960" height="540">
         {
-          wideIds.map(id => <ImageDisplay key={id} renderProp={(image) => <div style={{ backgroundImage: `url(${image})` }} className="photo" onClick={() => toMovieDetails(id)} />} imageUrl={id} />)
+          wideIds.map(id => <ImageDisplay key={id} renderProp={(image) => <div style={{ backgroundImage: `url(${image})` }} className="photo" onClick={() => toMovieDetails(id.replace('wide-', ''))} />} imageUrl={id} />)
         }
       </JqxScrollView>
       <h1>

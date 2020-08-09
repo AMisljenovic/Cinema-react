@@ -71,6 +71,7 @@
 
 #movie-details-wrapper .jqx-grid {
   margin-top: 3%;
+  height: 224px !important;
 }
 
 #movie-details-wrapper .jqx-button {

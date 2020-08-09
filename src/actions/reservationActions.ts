@@ -1,5 +1,5 @@
 import { GET_RESERVATIONS_BY_REPERTORY_ID, GET_RESERVATIONS_BY_REPERTORY_AND_USER_ID,
-  LOGS_ERROR, RESERVATION_ERROR } from 'actions/types';
+  LOGS_ERROR, RESERVATION_ERROR, POST_RESERVATIONS } from 'actions/types';
 
 const url = `${process.env.REACT_APP_API_URL}/reservations`;
 let res:any;
@@ -36,8 +36,31 @@ export const getReservationsByRepertoryAndUserId = (repertoryId, userId) => asyn
     });
   } catch (error) {
     dispatch({
-      type: LOGS_ERROR,
+      type: RESERVATION_ERROR,
       payload: error.response.data,
+    });
+  }
+};
+
+export const postReservations = (reservations) => async (dispatch) => {
+  try {
+    res = await fetch(url, {
+      credentials: 'include',
+      body: JSON.stringify(reservations),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    });
+
+    dispatch({
+      type: POST_RESERVATIONS,
+      payload: { reservationStatusCode: res.status },
+    });
+  } catch (error) {
+    dispatch({
+      type: RESERVATION_ERROR,
+      payload: { reservationStatusCode: res.status },
     });
   }
 };

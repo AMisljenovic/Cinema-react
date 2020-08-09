@@ -1,10 +1,11 @@
-import { GET_RESERVATIONS_BY_REPERTORY_ID, GET_RESERVATIONS_BY_REPERTORY_AND_USER_ID, RESERVATION_ERROR } from 'actions/types';
+import { GET_RESERVATIONS_BY_REPERTORY_ID, GET_RESERVATIONS_BY_REPERTORY_AND_USER_ID, RESERVATION_ERROR, POST_RESERVATIONS } from 'actions/types';
 
 
 const initalState = {
   seats: [],
   userReservedSeats: [],
   reservationStatusCode: null,
+  postReservationStatusCode: null,
 };
 
 export default (state = initalState, action) => {
@@ -27,6 +28,11 @@ export default (state = initalState, action) => {
       return {
         ...state,
         reservationStatusCode: action.payload.reservationStatusCode,
+      };
+    case POST_RESERVATIONS:
+      return {
+        ...state,
+        postReservationStatusCode: action.payload.reservationStatusCode,
       };
     default:
       return state;

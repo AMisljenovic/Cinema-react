@@ -93,3 +93,38 @@
 .hall-wrapper .jqx-item {
   border: none;
 }
+
+.modal-wrapper {
+  height: 550px;
+  display: flex;
+  flex-direction: column;
+  background-color:#c9c9c9;
+}
+.modal-wrapper .seats {
+  flex-grow: 1;
+  width: 200;
+  height: 350;
+}
+
+.modal-wrapper .action {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  margin-top: 5%;
+}
+
+.modal-wrapper .jqx-button {
+  margin-left: 5%;
+  margin-bottom: 2%;
+}
+
+.modal-wrapper h3 {
+  color: #FFC700;
+  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-width: thin;
+}
+
+
+
+
+

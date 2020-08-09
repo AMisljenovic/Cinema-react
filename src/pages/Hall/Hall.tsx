@@ -6,7 +6,8 @@ import projectorScreen from 'assets/project-screen.png';
 import JqxGrid, { jqx } from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxgrid';
 import JqxButton from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxbuttons';
 import SeatPosition from 'models/seat-position.model';
-
+import Modal from 'react-bootstrap/Modal';
+import Reservation from 'models/reservation.model';
 
 const source: any = [
   {
@@ -37,14 +38,15 @@ const columnPropNames: string[] = [];
 let dataAdapter: any;
 let cellsRendered = true;
 const seatPosition: SeatPosition[] = [];
+let user: any;
 
 const Hall = ({ hallId, repertoryId, getRepertoryById, getReservationsByRepertoryId,
-  getReservationsByRepertoryAndUserId, getHall, reservationStatusCode,
+  getReservationsByRepertoryAndUserId, getHall, postReservations, postReservationStatusCode, reservationStatusCode,
   seats, userReservedSeats, repertory, hall }) => {
-  let user: any;
   const jqxGrid = useRef<JqxGrid>(null);
   const [totalSelectedSeats, setTotalSelectedSeats] = useState(0);
   const [reservationLimit, setReservationLimit] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const redirectToLogin = () => {
     alert('You are not authorized to access this page. You will be redirected to sign in page');
@@ -76,6 +78,13 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getReservationsByRepertor
       redirectToLogin();
     }
   }, [reservationStatusCode]);
+
+  useEffect(() => {
+    if (postReservationStatusCode === 200) {
+      getReservationsByRepertoryAndUserId(repertoryId, user.id);
+      cellsRendered = true;
+    }
+  }, [postReservationStatusCode]);
 
   const hallRender = (hallProp) => {
     for (let index = 0; index < hallProp.columns; index++) {
@@ -167,24 +176,34 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getReservationsByRepertor
     }
 
     setReservationLimit(false);
-    // const totalPrice = seatPosition.length * repertory.price;
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.disableClose = true;
-    // dialogConfig.id = 'modal-component';
-    // dialogConfig.height = '600px';
-    // dialogConfig.width = '480px';
-    // dialogConfig.data = {
-    //   seats: seatPosition,
-    //   totalPrice
-    // };
+    setModalIsOpen(true);
+  };
 
-    // matDialog.open(ModalComponent, dialogConfig)
-    // .afterClosed()
-    // .subscribe(seatsReserved => {
-    //   if (seatsReserved) {
-    //     postReservations();
-    //   }
-    // });
+  const reserve = () => {
+    const reservations: Reservation[] = [];
+    seatPosition.forEach(seat => {
+      reservations.push({
+        id: '',
+        repertoryId,
+        seatRow: seat.row,
+        seatColumn: seat.column,
+        userId: user.id,
+        date: repertory.date,
+        playTime: repertory.playTime,
+      });
+    });
+
+    postReservations(reservations);
+
+    const unselectCell: any[] = [];
+
+    seatPosition.forEach(seat => unselectCell.push({ row: seat.row, column: columns[seat.column].datafield }));
+
+    unselectCell.forEach(cell => {
+      if (jqxGrid.current) {
+        jqxGrid.current.unselectcell(cell.row, cell.column);
+      }
+    });
   };
 
   if (seats.length > 0 && userReservedSeats.length > 0 && repertory && hall) {
@@ -240,6 +259,46 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getReservationsByRepertor
             onCellunselect={cellUnselected}
           />
         </div>
+        <Modal show={modalIsOpen}>
+          <div className="modal-wrapper">
+            <div className="seats">
+              <h3>Selected seats</h3>
+
+              <ul>
+                {seatPosition.map(position => <li>{`row: ${position.row}, column: ${position.column}`}</li>)}
+              </ul>
+              <h3>
+                Total:
+                {' '}
+                {seatPosition.length * repertory.price}
+                {' '}
+                din.
+              </h3>
+            </div>
+            <div className="action">
+              <JqxButton
+                className="jqx-button"
+                roundedCorners="all"
+                template="success"
+                width="180"
+                height="20"
+                onClick={reserve}
+              >
+                Reserve
+              </JqxButton>
+              <JqxButton
+                className="jqx-button"
+                roundedCorners="all"
+                template="danger"
+                width="180"
+                height="20"
+                onClick={() => setModalIsOpen(false)}
+              >
+                Cancel
+              </JqxButton>
+            </div>
+          </div>
+        </Modal>
       </div>
     );
   }

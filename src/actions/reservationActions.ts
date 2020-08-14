@@ -1,38 +1,23 @@
-import { GET_RESERVATIONS_BY_REPERTORY_ID, GET_RESERVATIONS_BY_REPERTORY_AND_USER_ID,
-  LOGS_ERROR, RESERVATION_ERROR, POST_RESERVATIONS } from 'actions/types';
+import { GET_SEATS_RESERVATIONS, RESERVATION_ERROR, POST_RESERVATIONS } from 'actions/types';
 
 const url = `${process.env.REACT_APP_API_URL}/reservations`;
 let res:any;
 
-export const getReservationsByRepertoryId = (id) => async (dispatch) => {
+export const getSeatsReservations = (repertoryId, userId) => async (dispatch) => {
   try {
-    res = await fetch(`${url}/${id}`, {
+    const res1 = await fetch(`${url}/${repertoryId}`, {
       credentials: 'include',
     });
-    const data = await res.json();
+    const seats = await res1.json();
 
-    dispatch({
-      type: GET_RESERVATIONS_BY_REPERTORY_ID,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: RESERVATION_ERROR,
-      payload: { reservationStatusCode: res.status },
-    });
-  }
-};
-
-export const getReservationsByRepertoryAndUserId = (repertoryId, userId) => async (dispatch) => {
-  try {
-    const res = await fetch(`${url}/${repertoryId}/${userId}`, {
+    const res2 = await fetch(`${url}/${repertoryId}/${userId}`, {
       credentials: 'include',
     });
-    const data = await res.json();
+    const userReservedSeats = await res2.json();
 
     dispatch({
-      type: GET_RESERVATIONS_BY_REPERTORY_AND_USER_ID,
-      payload: data,
+      type: GET_SEATS_RESERVATIONS,
+      payload: { seats, userReservedSeats },
     });
   } catch (error) {
     dispatch({

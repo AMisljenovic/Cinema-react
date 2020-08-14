@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { getRepertoryById } from 'actions/repertoryActions';
 import Hall from 'pages/Hall/Hall';
 import { getHall } from 'actions/hallActions';
-import { getReservationsByRepertoryId, getReservationsByRepertoryAndUserId, postReservations } from 'actions/reservationActions';
+import { postReservations, getSeatsReservations } from 'actions/reservationActions';
 
 const mapPropsToState = (state) => ({
   repertory: state.repertoires.repertory,
@@ -17,5 +17,4 @@ export default connect(mapPropsToState, {
   getHall,
   postReservations,
   getRepertoryById,
-  getReservationsByRepertoryId,
-  getReservationsByRepertoryAndUserId })(Hall);
+  getSeatsReservations })(Hall);

@@ -5,7 +5,6 @@ const initalState = {
   statusCode: null,
 };
 
-
 export default (state = initalState, action) => {
   switch (action.type) {
     case SIGN_IN:

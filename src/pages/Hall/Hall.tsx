@@ -24,34 +24,57 @@ const source: any = [
   },
 ];
 
-const imagerenderer = (row, datafield, value) => `<img id="${row}-${datafield}" style="margin-top: 20%;margin-left: 22%" height="60" width="70" src="${value}"/>`;
+const getCellColor = (userSeats, allSetas, row, column) => {
+  if (userSeats[row][column] === 1) {
+    return 'dodgerblue';
+  }
+  if (allSetas[row][column] === 1) {
+    return '#FFC700';
+  }
 
-const columns = [
-  { text: 'column0', datafield: 'column0', width: 120, cellsrenderer: imagerenderer },
-  { text: 'column1', datafield: 'column1', width: 120, cellsrenderer: imagerenderer },
-  { text: 'column2', datafield: 'column2', width: 120, cellsrenderer: imagerenderer },
-  { text: 'column3', datafield: 'column3', width: 120, cellsrenderer: imagerenderer },
-  { text: 'column4', datafield: 'column4', width: 120, cellsrenderer: imagerenderer },
-];
-const columnPropNames: string[] = [];
+  return 'none';
+};
 
-let dataAdapter: any;
-let cellsRendered = true;
+const imagerenderer = (row, datafield, value, column, userSeats, allSeats) => `<div style="height: 100%;width: 100%;
+background-color:${getCellColor(userSeats, allSeats, row, column)}">
+<img id="${row}-${datafield}" style="margin-top: 20%;margin-left: 22%;height="60" width="70" src="${value}"/></div>`;
+
+const columns = (userResSetas, allSeats) => {
+  const gridColumns = [
+    { text: 'column0', datafield: 'column0', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 0, userResSetas, allSeats) },
+    { text: 'column1', datafield: 'column1', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 1, userResSetas, allSeats) },
+    { text: 'column2', datafield: 'column2', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 2, userResSetas, allSeats) },
+    { text: 'column3', datafield: 'column3', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 3, userResSetas, allSeats) },
+    { text: 'column4', datafield: 'column4', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 4, userResSetas, allSeats) },
+  ];
+
+  return gridColumns;
+};
+
 const seatPosition: SeatPosition[] = [];
 let user: any;
 
-const Hall = ({ hallId, repertoryId, getRepertoryById, getReservationsByRepertoryId,
-  getReservationsByRepertoryAndUserId, getHall, postReservations, postReservationStatusCode, reservationStatusCode,
+const Hall = ({ hallId, repertoryId, getRepertoryById, getSeatsReservations, getHall, postReservations, postReservationStatusCode, reservationStatusCode,
   seats, userReservedSeats, repertory, hall }) => {
   const jqxGrid = useRef<JqxGrid>(null);
   const [totalSelectedSeats, setTotalSelectedSeats] = useState(0);
   const [reservationLimit, setReservationLimit] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [dataAdapter, setDataAdapter] = useState<any>(null);
+  const [testColumns, setTestColumns] = useState<any>([]);
 
   const redirectToLogin = () => {
     alert('You are not authorized to access this page. You will be redirected to sign in page');
     sessionStorage.removeItem('user');
     navigate('/signin');
+  };
+
+  const fetchAllData = () => {
+    // getReservationsByRepertoryAndUserId(repertoryId, user.id);
+    getRepertoryById(repertoryId);
+    // getReservationsByRepertoryId(repertoryId);
+    getSeatsReservations(repertoryId, user.id);
+    getHall(hallId);
   };
 
   useEffect(() => {
@@ -61,36 +84,46 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getReservationsByRepertor
     }
     user = JSON.parse(data || '{}');
 
-    getRepertoryById(repertoryId);
-    getReservationsByRepertoryId(repertoryId);
-    getReservationsByRepertoryAndUserId(repertoryId, user.id);
-    getHall(hallId);
+    console.log('Use effect 1');
 
-    const elements = Array.from(document.getElementsByClassName('jqx-grid-cell jqx-item'));
-    elements.forEach(element => {
-      const converted = element as HTMLElement;
-      converted.style.border = 'none';
-    });
+    fetchAllData();
   }, []);
 
   useEffect(() => {
-    if (reservationStatusCode === 401) {
-      redirectToLogin();
+    console.log('Use effect 2');
+
+    if (hall) {
+      hallRender(hall);
+      console.log('Use effect 2: hall render');
     }
-  }, [reservationStatusCode]);
+  }, [hall]);
 
   useEffect(() => {
-    if (postReservationStatusCode === 200) {
-      getReservationsByRepertoryAndUserId(repertoryId, user.id);
-      cellsRendered = true;
+    console.log('Use effect 3: set test columns');
+
+    if (userReservedSeats && userReservedSeats.length > 0 && seats && seats.length > 0) {
+      setTestColumns(columns(userReservedSeats, seats));
     }
-  }, [postReservationStatusCode]);
+  }, [seats, userReservedSeats]);
+
+  // useEffect(() => {
+  //   console.log('Use effect 2');
+
+  //   if (reservationStatusCode === 401) {
+  //     redirectToLogin();
+  //   }
+  // }, [reservationStatusCode]);
+
+  // useEffect(() => {
+  //   console.log('Use effect 3');
+
+  //   if (postReservationStatusCode === 200) {
+  //     getReservationsByRepertoryAndUserId(repertoryId, user.id);
+  //     cellsRendered = true;
+  //   }
+  // }, [postReservationStatusCode]);
 
   const hallRender = (hallProp) => {
-    for (let index = 0; index < hallProp.columns; index++) {
-      const columnPropName = `column${index}`;
-      columnPropNames.push(columnPropName);
-    }
     const seatRender: any[] = [];
     for (let index = 0; index < hallProp.rows; index++) {
       const row = {
@@ -106,29 +139,7 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getReservationsByRepertor
 
     source.localdata = seatRender;
 
-    dataAdapter = new jqx.dataAdapter(source);
-  };
-
-  const renderSeats = () => {
-    if (seats && userReservedSeats && cellsRendered) {
-      for (let i = 0; i < 5; i++) {
-        for (let y = 0; y < 5; y++) {
-          if (userReservedSeats[i][y] === 1) {
-            const cell = document.getElementById(`${i}-column${y}`) as HTMLElement;
-            if (cell && cell.parentElement) {
-              cell.parentElement.style.backgroundColor = 'dodgerblue';
-            }
-          } else if (seats[i][y] === 1) {
-            const cell = document.getElementById(`${i}-column${y}`) as HTMLElement;
-            if (cell && cell.parentElement) {
-              cell.parentElement.style.backgroundColor = '#FFC700';
-            }
-          }
-        }
-      }
-
-      cellsRendered = false;
-    }
+    setDataAdapter(new jqx.dataAdapter(source));
   };
 
   const reservationsOverLimit = () => {
@@ -140,7 +151,7 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getReservationsByRepertor
       }
     }
 
-    return (numberOfReservations + seatPosition.length) > 4;
+    return (numberOfReservations + seatPosition.length) > 50;// todo
   };
 
   const cellSelected = (event) => {
@@ -197,19 +208,19 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getReservationsByRepertor
 
     const unselectCell: any[] = [];
 
-    seatPosition.forEach(seat => unselectCell.push({ row: seat.row, column: columns[seat.column].datafield }));
+    seatPosition.forEach(seat => unselectCell.push({ row: seat.row, column: columns(userReservedSeats, seats)[seat.column].datafield }));
 
     unselectCell.forEach(cell => {
       if (jqxGrid.current) {
         jqxGrid.current.unselectcell(cell.row, cell.column);
       }
     });
+
+    setModalIsOpen(false);
+    fetchAllData();
   };
 
   if (seats.length > 0 && userReservedSeats.length > 0 && repertory && hall) {
-    hallRender(hall);
-    renderSeats();
-
     return (
       <div className="hall-wrapper">
         <div className="legend">
@@ -248,7 +259,7 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getReservationsByRepertor
             className="jqx-grid"
             ref={jqxGrid}
             source={dataAdapter}
-            columns={columns}
+            columns={testColumns}
             showstatusbar={false}
             rowsheight={110}
             autoheight={true}

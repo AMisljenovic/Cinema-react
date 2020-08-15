@@ -4,6 +4,7 @@ import Header from './Header';
 
 const mapPropsToState = (state) => ({
   statusCode: state.users.statusCode,
+  loginResponse: state.users.loginResponse,
 });
 
 export default connect(mapPropsToState, { signOut })(Header);

@@ -4,13 +4,13 @@ import './Header.css';
 import logo from '../../assets/Logo.png';
 
 
-const Header = ({ signOut, statusCode }) => {
+const Header = ({ signOut, statusCode, loginResponse }) => {
   const [signedInAsAdmin, setSignedInAsAdmin] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   useEffect(() => {
-    setIsUserLoggedIn(!!sessionStorage.getItem('user'));
-  }, [statusCode, sessionStorage.getItem('user')]);
+    setIsUserLoggedIn(loginResponse !== null);
+  }, [statusCode, loginResponse]);
 
   const redirect = (route) => {
     navigate(route);
@@ -25,16 +25,16 @@ const Header = ({ signOut, statusCode }) => {
 
   return (
     <nav className="navbar fixed-top navbar-dark bg-dark">
-      <a onClick={(_) => redirect('/home')}>
+      <a onClick={() => redirect('/home')}>
         <img src={logo} />
       </a>
       <div className="navbar">
-        {signedInAsAdmin && <a className="nav-link" onClick={(_) => redirect('/admin-panel')}>Admin Panel</a>}
-        <a className="nav-link" onClick={(_) => redirect('/home')}>Home</a>
-        <a className="nav-link" onClick={(_) => redirect('/contact-us')}>Contact Us</a>
-        {!isUserLoggedIn && <a className="nav-link" onClick={(_) => redirect('/signin')}>Sign In</a>}
-        {!isUserLoggedIn && <a className="nav-link" onClick={(_) => redirect('/signup')}>Sign Up</a>}
-        { isUserLoggedIn && <a className="nav-link" onClick={(_) => redirect('/profile')}>My Profile</a>}
+        {signedInAsAdmin && <a className="nav-link" onClick={() => redirect('/admin-panel')}>Admin Panel</a>}
+        <a className="nav-link" onClick={() => redirect('/home')}>Home</a>
+        <a className="nav-link" onClick={() => redirect('/contact-us')}>Contact Us</a>
+        {!isUserLoggedIn && <a className="nav-link" onClick={() => redirect('/signin')}>Sign In</a>}
+        {!isUserLoggedIn && <a className="nav-link" onClick={() => redirect('/signup')}>Sign Up</a>}
+        { isUserLoggedIn && <a className="nav-link" onClick={() => redirect('/profile')}>My Profile</a>}
         { isUserLoggedIn && <a className="nav-link" onClick={signout}>Sign Out</a>}
       </div>
     </nav>

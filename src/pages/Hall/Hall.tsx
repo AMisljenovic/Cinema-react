@@ -102,8 +102,6 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getSeatsReservations, get
   }, [seats, userReservedSeats]);
 
   // useEffect(() => {
-  //   console.log('Use effect 2');
-
   //   if (reservationStatusCode === 401) {
   //     redirectToLogin();
   //   }

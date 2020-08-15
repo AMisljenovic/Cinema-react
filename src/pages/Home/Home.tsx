@@ -30,7 +30,7 @@ const Home = ({ getMovies, announcedMovies, playingMovies }) => {
 
 
   if (playingMovies.length === 0) {
-    return (<JqxLoader ref={myLoader} imagePosition="top" width={300} height={200} />);
+    return (<JqxLoader ref={myLoader} imagePosition="top" width={80} height={60} />);
   }
 
   return (

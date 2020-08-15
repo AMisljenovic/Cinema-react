@@ -51,7 +51,6 @@ const seatPosition: SeatPosition[] = [];
 let user: any;
 
 const Hall = ({ hallId, repertoryId, getRepertoryById, getSeatsReservations, getHall, postReservations,
-  postReservationStatusCode, reservationStatusCode,
   seats, userReservedSeats, repertory, hall }) => {
   const jqxGrid = useRef<JqxGrid>(null);
   const [totalSelectedSeats, setTotalSelectedSeats] = useState(0);
@@ -101,21 +100,6 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getSeatsReservations, get
     }
   }, [seats, userReservedSeats]);
 
-  // useEffect(() => {
-  //   if (reservationStatusCode === 401) {
-  //     redirectToLogin();
-  //   }
-  // }, [reservationStatusCode]);
-
-  // useEffect(() => {
-  //   console.log('Use effect 3');
-
-  //   if (postReservationStatusCode === 200) {
-  //     getReservationsByRepertoryAndUserId(repertoryId, user.id);
-  //     cellsRendered = true;
-  //   }
-  // }, [postReservationStatusCode]);
-
   const hallRender = (hallProp) => {
     const seatRender: any[] = [];
     for (let index = 0; index < hallProp.rows; index++) {
@@ -144,7 +128,7 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getSeatsReservations, get
       }
     }
 
-    return (numberOfReservations + seatPosition.length) > 50;// todo
+    return (numberOfReservations + seatPosition.length) > 4;
   };
 
   const cellSelected = (event) => {
@@ -239,7 +223,7 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getSeatsReservations, get
               template="inverse"
               width={180}
               height={35}
-              onClick={openModal}
+              onClick={() => {if (totalSelectedSeats > 0) {openModal()}}}
             >
               Click here to reserve selected seats
             </JqxButton>

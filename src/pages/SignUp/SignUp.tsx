@@ -205,6 +205,9 @@ const SignUp = ({ signUp, error, statusCode }) => {
     if (error && error.error && error.status === 409 && count !== 0) {
       setEmailInUse(error.error.includes('email'));
       setUsernameInUse(error.error.includes('username'));
+    } else if (error && error.status === 200 && count !== 0) {
+      alert('Successfully registered! You will be redirected to the login page');
+      navigate('/signin');
     }
   }, [error, statusCode]);
 

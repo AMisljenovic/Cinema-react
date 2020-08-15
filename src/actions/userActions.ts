@@ -22,7 +22,7 @@ export const signIn = (username = '', email = '', password) => async (dispatch) 
   } catch (error) {
     dispatch({
       type: SIGN_IN,
-      payload: { statusCode: res.status },
+      payload: { data: null, statusCode: res.status },
     });
   }
 };
@@ -67,12 +67,14 @@ export const signUp = (user) => async (dispatch) => {
         type: SIGN_UP_ERROR,
         payload: { error: { error: data, status: res.status } },
       });
+
+      return;
     }
 
 
     dispatch({
       type: SIGN_UP,
-      payload: { statusCode: res.status },
+      payload: { error: { status: res.status } },
     });
   } catch (error) {
     dispatch({

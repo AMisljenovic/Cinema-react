@@ -18,7 +18,7 @@ export default (state = initalState, action) => {
     case SIGN_UP:
       return {
         ...state,
-        statusCode: action.payload.statusCode,
+        error: action.payload.error,
       };
 
     case SIGN_UP_ERROR:

@@ -30,3 +30,7 @@
   /* height: auto; */
 }
 
+.sign-up input[role=button] {
+  margin-left: 100% !important;
+}
+

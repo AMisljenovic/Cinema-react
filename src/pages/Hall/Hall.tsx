@@ -39,22 +39,19 @@ const imagerenderer = (row, datafield, value, column, userSeats, allSeats) => `<
 background-color:${getCellColor(userSeats, allSeats, row, column)}">
 <img id="${row}-${datafield}" style="margin-top: 20%;margin-left: 22%;height="60" width="70" src="${value}"/></div>`;
 
-const columns = (userResSetas, allSeats) => {
-  const gridColumns = [
-    { text: 'column0', datafield: 'column0', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 0, userResSetas, allSeats) },
-    { text: 'column1', datafield: 'column1', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 1, userResSetas, allSeats) },
-    { text: 'column2', datafield: 'column2', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 2, userResSetas, allSeats) },
-    { text: 'column3', datafield: 'column3', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 3, userResSetas, allSeats) },
-    { text: 'column4', datafield: 'column4', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 4, userResSetas, allSeats) },
-  ];
-
-  return gridColumns;
-};
+const columns = (userResSetas, allSeats) => [
+  { text: 'column0', datafield: 'column0', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 0, userResSetas, allSeats) },
+  { text: 'column1', datafield: 'column1', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 1, userResSetas, allSeats) },
+  { text: 'column2', datafield: 'column2', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 2, userResSetas, allSeats) },
+  { text: 'column3', datafield: 'column3', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 3, userResSetas, allSeats) },
+  { text: 'column4', datafield: 'column4', width: 120, cellsrenderer: (row, datafield, value) => imagerenderer(row, datafield, value, 4, userResSetas, allSeats) },
+];
 
 const seatPosition: SeatPosition[] = [];
 let user: any;
 
-const Hall = ({ hallId, repertoryId, getRepertoryById, getSeatsReservations, getHall, postReservations, postReservationStatusCode, reservationStatusCode,
+const Hall = ({ hallId, repertoryId, getRepertoryById, getSeatsReservations, getHall, postReservations,
+  postReservationStatusCode, reservationStatusCode,
   seats, userReservedSeats, repertory, hall }) => {
   const jqxGrid = useRef<JqxGrid>(null);
   const [totalSelectedSeats, setTotalSelectedSeats] = useState(0);
@@ -70,9 +67,7 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getSeatsReservations, get
   };
 
   const fetchAllData = () => {
-    // getReservationsByRepertoryAndUserId(repertoryId, user.id);
     getRepertoryById(repertoryId);
-    // getReservationsByRepertoryId(repertoryId);
     getSeatsReservations(repertoryId, user.id);
     getHall(hallId);
   };

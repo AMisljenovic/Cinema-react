@@ -22,7 +22,7 @@ export const getSeatsReservations = (repertoryId, userId) => async (dispatch) =>
   } catch (error) {
     dispatch({
       type: RESERVATION_ERROR,
-      payload: error.response.data,
+      payload: error,
     });
   }
 };

@@ -1,10 +1,12 @@
-import { RESERVATION_ERROR, POST_RESERVATIONS, GET_SEATS_RESERVATIONS, SIGN_OUT } from 'actions/types';
+import { RESERVATION_ERROR, POST_RESERVATIONS, GET_SEATS_RESERVATIONS,
+  SIGN_OUT, GET_CHART_DATA, GET_CHART_DATA_ERROR } from 'actions/types';
 
 const initalState = {
   seats: [],
   userReservedSeats: [],
   reservationStatusCode: null,
   postReservationStatusCode: null,
+  chartData: [],
 };
 
 export default (state = initalState, action) => {
@@ -24,6 +26,17 @@ export default (state = initalState, action) => {
       return {
         ...state,
         postReservationStatusCode: action.payload.reservationStatusCode,
+      };
+    case GET_CHART_DATA:
+      return {
+        ...state,
+        reservationStatusCode: action.payload.reservationStatusCode,
+        chartData: action.payload.data,
+      };
+    case GET_CHART_DATA_ERROR:
+      return {
+        ...state,
+        reservationStatusCode: action.payload.reservationStatusCode,
       };
     case SIGN_OUT:
       return initalState;

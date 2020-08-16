@@ -1,4 +1,4 @@
-import { GET_SEATS_RESERVATIONS, RESERVATION_ERROR, POST_RESERVATIONS } from 'actions/types';
+import { GET_SEATS_RESERVATIONS, RESERVATION_ERROR, POST_RESERVATIONS, GET_CHART_DATA, GET_CHART_DATA_ERROR } from 'actions/types';
 
 const url = `${process.env.REACT_APP_API_URL}/reservations`;
 let res:any;
@@ -47,5 +47,30 @@ export const postReservations = (reservations) => async (dispatch) => {
       type: RESERVATION_ERROR,
       payload: { reservationStatusCode: res.status },
     });
+  }
+};
+
+export const getChartData = () => async (dispatch) => {
+  try {
+    res = await fetch(url, {
+      credentials: 'include',
+      method: 'GET',
+    });
+
+    if (res.status > 300) {
+      dispatch({
+        type: GET_CHART_DATA_ERROR,
+        payload: { reservationStatusCode: res.status },
+      });
+    }
+
+    const data = await res.json();
+
+    dispatch({
+      type: GET_CHART_DATA,
+      payload: { data },
+    });
+  } catch (error) {
+    console.log(error);
   }
 };

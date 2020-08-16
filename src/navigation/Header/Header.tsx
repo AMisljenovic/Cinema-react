@@ -9,7 +9,7 @@ const Header = ({ signOut, statusCode, loginResponse }) => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   useEffect(() => {
-    setIsUserLoggedIn(loginResponse !== null);
+    setIsUserLoggedIn(loginResponse !== null || !!sessionStorage.getItem('user'));
   }, [statusCode, loginResponse]);
 
   const redirect = (route) => {

@@ -1,5 +1,5 @@
 import { GET_SEATS_RESERVATIONS, RESERVATION_ERROR, POST_RESERVATIONS,
-  GET_CHART_DATA, GET_CHART_DATA_ERROR, GET_USER_RESERVATIONS } from 'actions/types';
+  GET_CHART_DATA, GET_CHART_DATA_ERROR, GET_USER_RESERVATIONS, DELETE_RESERVATIONS, CLEAR } from 'actions/types';
 
 const url = `${process.env.REACT_APP_API_URL}/reservations`;
 let res:any;
@@ -94,3 +94,25 @@ export const getChartData = () => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const deleteReservations = (reservationIds) => async (dispatch) => {
+  try {
+    res = await fetch(`${url}/delete`, {
+      body: JSON.stringify(reservationIds),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      method: 'POST',
+    });
+
+    dispatch({
+      type: DELETE_RESERVATIONS,
+      payload: { deleteStatusCode: res.status },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const clearAction = () => async (dispatch) => { dispatch({ type: CLEAR }); };

@@ -1,5 +1,5 @@
 import { RESERVATION_ERROR, POST_RESERVATIONS, GET_SEATS_RESERVATIONS,
-  SIGN_OUT, GET_CHART_DATA, GET_CHART_DATA_ERROR, GET_USER_RESERVATIONS } from 'actions/types';
+  SIGN_OUT, GET_CHART_DATA, GET_CHART_DATA_ERROR, GET_USER_RESERVATIONS, DELETE_RESERVATIONS, CLEAR } from 'actions/types';
 
 const initalState = {
   seats: [],
@@ -8,6 +8,7 @@ const initalState = {
   postReservationStatusCode: null,
   chartData: [],
   reservations: [],
+  deleteReservationsStatusCode: null,
 };
 
 export default (state = initalState, action) => {
@@ -47,6 +48,16 @@ export default (state = initalState, action) => {
       };
     case SIGN_OUT:
       return initalState;
+    case DELETE_RESERVATIONS:
+      return {
+        ...state,
+        deleteReservationsStatusCode: action.payload.deleteStatusCode,
+      };
+    case CLEAR:
+      return {
+        ...state,
+        deleteReservationsStatusCode: null,
+      };
     default:
       return state;
   }

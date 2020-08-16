@@ -28,15 +28,17 @@ const columns = [
   { text: 'Price', datafield: 'price' },
 ];
 
-const reservationsToRemove = [];
+const reservationsToRemove: any[] = [];
 let user:any;
 
-const Profile = ({ getReservations, reservations, deleteUser, deleteStatusCode, signOut }) => {
+const Profile = ({ getReservations, reservations, deleteUser, deleteStatusCode,
+  signOut, deleteReservations, deleteReservationsStatusCode, clearAction }) => {
   const [dataAdapter, setDataAdapter] = useState<any>(null);
-  const [reservationsToRemove, setReservationsToRemove] = useState(0);
+  const [reservationsToRemoveLength, setReservationsToRemoveLength] = useState(0);
   const [confrimDeletion, setConfrimDeletion] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
   const jqxPassword = useRef<JqxPasswordInput>(null);
+  const jqxGrid = useRef<JqxGrid>(null);
 
   const redirectToLogin = () => {
     alert('You are not authorized to access this page. You will be redirected to sign in page');
@@ -85,6 +87,21 @@ const Profile = ({ getReservations, reservations, deleteUser, deleteStatusCode, 
     }
   }, [deleteStatusCode]);
 
+  useEffect(() => {
+    if (deleteReservationsStatusCode === 200) {
+      if (jqxGrid.current) {
+        jqxGrid.current.clearselection();
+        getReservations(user.id);
+        setReservationsToRemoveLength(0);
+
+        alert('Reservation(s) successfully removed');
+        clearAction();
+      }
+    } else if (deleteReservationsStatusCode === 401) {
+      redirectToLogin();
+    }
+  }, [deleteReservationsStatusCode]);
+
   const confirm = () => {
     if (jqxPassword.current) {
       const password = jqxPassword.current.val();
@@ -96,6 +113,34 @@ const Profile = ({ getReservations, reservations, deleteUser, deleteStatusCode, 
 
       deleteUser(deletionRequest);
     }
+  };
+
+  const gridOnRowSelect = (event) => {
+    if (jqxGrid.current) {
+      const rowData = jqxGrid.current.getrowdata(event.args.rowindex);
+      reservationsToRemove.push(rowData);
+      setReservationsToRemoveLength(reservationsToRemoveLength + 1);
+    }
+  };
+
+  const gridOnRowUnselect = (event) => {
+    if (jqxGrid.current) {
+      const rowData = jqxGrid.current.getrowdata(event.args.rowindex);
+      const index = reservationsToRemove.findIndex(res => res.reservationId === rowData.reservationId);
+
+      if (index > -1) {
+        reservationsToRemove.splice(index, 1);
+        setReservationsToRemoveLength(reservationsToRemoveLength - 1);
+      }
+    }
+  };
+
+  const deleteSelectedReservations = () => {
+    const reservationIds = reservationsToRemove.map(
+      res => res.reservationId,
+    );
+
+    deleteReservations(reservationIds);
   };
 
   return (
@@ -164,19 +209,23 @@ const Profile = ({ getReservations, reservations, deleteUser, deleteStatusCode, 
       <div className="reservations">
         <div className="table">
           <JqxGrid
+            ref={jqxGrid}
             width="800"
             height="450"
             source={dataAdapter}
             selectionmode="multiplerows"
             columns={columns}
+            onRowselect={event => gridOnRowSelect(event)}
+            onRowunselect={event => gridOnRowUnselect(event)}
           />
         </div>
         <div className="delete-reservations">
           <JqxButton
-            disabled={reservationsToRemove === 0}
+            disabled={reservationsToRemoveLength === 0}
             template="danger"
             width="250"
             height="30"
+            onClick={() => { if (reservationsToRemoveLength > 0) { deleteSelectedReservations(); } }}
           >
             <span>Remove reservations</span>
           </JqxButton>

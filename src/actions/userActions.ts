@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR, LOGGED_IN_AS_ADMIN, DELETE_USER } from 'actions/types';
+import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR, LOGGED_IN_AS_ADMIN, DELETE_USER, CLEAR } from 'actions/types';
 
 const url = `${process.env.REACT_APP_API_URL}/users`;
 let res: any;

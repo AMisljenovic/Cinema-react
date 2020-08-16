@@ -14,6 +14,7 @@ export default (state = initalState, action) => {
         ...state,
         loginResponse: action.payload.data,
         statusCode: action.payload.statusCode,
+        deleteStatusCode: null,
       };
 
     case SIGN_UP:

@@ -78,23 +78,16 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getSeatsReservations, get
     }
     user = JSON.parse(data || '{}');
 
-    console.log('Use effect 1');
-
     fetchAllData();
   }, []);
 
   useEffect(() => {
-    console.log('Use effect 2');
-
     if (hall) {
       hallRender(hall);
-      console.log('Use effect 2: hall render');
     }
   }, [hall]);
 
   useEffect(() => {
-    console.log('Use effect 3: set test columns');
-
     if (userReservedSeats && userReservedSeats.length > 0 && seats && seats.length > 0) {
       setTestColumns(columns(userReservedSeats, seats));
     }
@@ -183,15 +176,9 @@ const Hall = ({ hallId, repertoryId, getRepertoryById, getSeatsReservations, get
 
     postReservations(reservations);
 
-    const unselectCell: any[] = [];
-
-    seatPosition.forEach(seat => unselectCell.push({ row: seat.row, column: columns(userReservedSeats, seats)[seat.column].datafield }));
-
-    unselectCell.forEach(cell => {
-      if (jqxGrid.current) {
-        jqxGrid.current.unselectcell(cell.row, cell.column);
-      }
-    });
+    if (jqxGrid.current) {
+      jqxGrid.current.clearselection();
+    }
 
     setModalIsOpen(false);
     fetchAllData();

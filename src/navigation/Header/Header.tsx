@@ -4,13 +4,21 @@ import './Header.css';
 import logo from '../../assets/Logo.png';
 
 
-const Header = ({ signOut, statusCode, loginResponse }) => {
+const Header = ({ signOut, loggedInAsAdmin, statusCode, adminStatusCode, loginResponse }) => {
   const [signedInAsAdmin, setSignedInAsAdmin] = useState(false);
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   useEffect(() => {
     setIsUserLoggedIn(loginResponse !== null || !!sessionStorage.getItem('user'));
+
+    loggedInAsAdmin();
   }, [statusCode, loginResponse]);
+
+  useEffect(() => {
+    if (adminStatusCode === 200) {
+      setSignedInAsAdmin(true);
+    }
+  }, [adminStatusCode]);
 
   const redirect = (route) => {
     navigate(route);
@@ -19,6 +27,7 @@ const Header = ({ signOut, statusCode, loginResponse }) => {
   const signout = () => {
     signOut();
     setIsUserLoggedIn(false);
+    setSignedInAsAdmin(false);
     sessionStorage.removeItem('user');
     navigate('/home');
   };

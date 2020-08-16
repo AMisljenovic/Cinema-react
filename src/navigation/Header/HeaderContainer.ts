@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
-import { signOut } from 'actions/userActions';
+import { signOut, loggedInAsAdmin } from 'actions/userActions';
 import Header from './Header';
 
 const mapPropsToState = (state) => ({
   statusCode: state.users.statusCode,
+  adminStatusCode: state.users.adminStatusCode,
   loginResponse: state.users.loginResponse,
 });
 
-export default connect(mapPropsToState, { signOut })(Header);
+export default connect(mapPropsToState, { signOut, loggedInAsAdmin })(Header);

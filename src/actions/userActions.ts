@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR } from 'actions/types';
+import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR, LOGGED_IN_AS_ADMIN } from 'actions/types';
 
 const url = `${process.env.REACT_APP_API_URL}/users`;
 let res: any;
@@ -80,6 +80,25 @@ export const signUp = (user) => async (dispatch) => {
     dispatch({
       type: SIGN_UP_ERROR,
       payload: { error },
+    });
+  }
+};
+
+export const loggedInAsAdmin = () => async (dispatch) => {
+  try {
+    res = await fetch(url, {
+      credentials: 'include',
+      method: 'GET',
+    });
+
+    dispatch({
+      type: LOGGED_IN_AS_ADMIN,
+      payload: { adminStatusCode: res.status },
+    });
+  } catch (error) {
+    dispatch({
+      type: LOGGED_IN_AS_ADMIN,
+      payload: { adminStatusCode: res.status },
     });
   }
 };

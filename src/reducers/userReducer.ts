@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR, LOGGED_IN_AS_ADMIN } from 'actions/types';
+import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR, LOGGED_IN_AS_ADMIN, DELETE_USER } from 'actions/types';
 
 const initalState = {
   loginResponse: null,
@@ -33,11 +33,15 @@ export default (state = initalState, action) => {
         statusCode: null,
         loginResponse: null,
       };
-
     case LOGGED_IN_AS_ADMIN:
       return {
         ...state,
         adminStatusCode: action.payload.adminStatusCode,
+      };
+    case DELETE_USER:
+      return {
+        ...state,
+        deleteStatusCode: action.payload.deleteStatusCode,
       };
     default:
       return state;

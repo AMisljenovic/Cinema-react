@@ -1,5 +1,5 @@
 import { RESERVATION_ERROR, POST_RESERVATIONS, GET_SEATS_RESERVATIONS,
-  SIGN_OUT, GET_CHART_DATA, GET_CHART_DATA_ERROR } from 'actions/types';
+  SIGN_OUT, GET_CHART_DATA, GET_CHART_DATA_ERROR, GET_USER_RESERVATIONS } from 'actions/types';
 
 const initalState = {
   seats: [],
@@ -7,6 +7,7 @@ const initalState = {
   reservationStatusCode: null,
   postReservationStatusCode: null,
   chartData: [],
+  reservations: [],
 };
 
 export default (state = initalState, action) => {
@@ -21,6 +22,12 @@ export default (state = initalState, action) => {
       return {
         ...state,
         reservationStatusCode: action.payload.reservationStatusCode,
+      };
+
+    case GET_USER_RESERVATIONS:
+      return {
+        ...state,
+        reservations: action.payload,
       };
     case POST_RESERVATIONS:
       return {

@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR, LOGGED_IN_AS_ADMIN } from 'actions/types';
+import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR, LOGGED_IN_AS_ADMIN, DELETE_USER } from 'actions/types';
 
 const url = `${process.env.REACT_APP_API_URL}/users`;
 let res: any;
@@ -100,5 +100,25 @@ export const loggedInAsAdmin = () => async (dispatch) => {
       type: LOGGED_IN_AS_ADMIN,
       payload: { adminStatusCode: res.status },
     });
+  }
+};
+
+export const deleteUser = (user) => async (dispatch) => {
+  try {
+    res = await fetch(`${url}/delete`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      method: 'POST',
+      body: JSON.stringify(user),
+    });
+
+    dispatch({
+      type: DELETE_USER,
+      payload: { deleteStatusCode: res.status },
+    });
+  } catch (error) {
+    console.log(error);
   }
 };

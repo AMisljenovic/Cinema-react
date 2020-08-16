@@ -1,10 +1,11 @@
-import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR, LOGGED_IN_AS_ADMIN, DELETE_USER } from 'actions/types';
+import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR, LOGGED_IN_AS_ADMIN, DELETE_USER, UPDATE_USER, CLEAR_USER } from 'actions/types';
 
 const initalState = {
   loginResponse: null,
   statusCode: null,
   adminStatusCode: null,
   error: null,
+  updateStatusCode: null,
 };
 
 export default (state = initalState, action) => {
@@ -43,6 +44,16 @@ export default (state = initalState, action) => {
       return {
         ...state,
         deleteStatusCode: action.payload.deleteStatusCode,
+      };
+    case UPDATE_USER:
+      return {
+        ...state,
+        updateStatusCode: action.payload.updateStatusCode,
+      };
+    case CLEAR_USER:
+      return {
+        ...state,
+        updateStatusCode: null,
       };
     default:
       return state;

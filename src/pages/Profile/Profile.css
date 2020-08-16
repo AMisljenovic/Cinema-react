@@ -21,6 +21,7 @@
 
 .profile .delete-button {
   align-self: center;
+  margin-right: 50%;
 }
 
 .profile .delete-reservations {
@@ -52,10 +53,10 @@
   width: 550px;
 }
 
-.profile jqxPasswordInput {
-  margin-top: 3%;
-  margin-left: 1%;
-  margin-right: 1%;
+.profile input[type=password] {
+  margin-top: 1% !important;
+  margin-left: 1% !important;
+  margin-right: 1% !important;
 }
 
 .profile .reservations {
@@ -76,6 +77,12 @@
   color: red;
 }
 
+.profile h6 {
+  color: red;
+  width: 280px;
+  margin-top: 2%;
+}
+
 .profile .cancel {
   margin-left: 2%;
 }
@@ -89,4 +96,8 @@
 .profile .fields {
   margin-bottom: 2%;
   margin-left: 3%;
+}
+
+.profile .table {
+  width: 55%;
 }

@@ -4,7 +4,7 @@ import './Profile.css';
 import JqxButton from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxbuttons';
 import JqxPasswordInput from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxpasswordinput';
 import JqxGrid, { jqx } from 'jqwidgets-scripts/jqwidgets-react-tsx/jqxgrid';
-
+import ProfileModal from 'components/ProfileModal';
 
 const source: any = [
   {
@@ -32,11 +32,12 @@ const reservationsToRemove: any[] = [];
 let user:any;
 
 const Profile = ({ getReservations, reservations, deleteUser, deleteStatusCode,
-  signOut, deleteReservations, deleteReservationsStatusCode, clearAction }) => {
+  signOut, deleteReservations, deleteReservationsStatusCode, clearAction, updateUser, updateStatusCode }) => {
   const [dataAdapter, setDataAdapter] = useState<any>(null);
   const [reservationsToRemoveLength, setReservationsToRemoveLength] = useState(0);
   const [confrimDeletion, setConfrimDeletion] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const jqxPassword = useRef<JqxPasswordInput>(null);
   const jqxGrid = useRef<JqxGrid>(null);
 
@@ -166,6 +167,7 @@ const Profile = ({ getReservations, reservations, deleteUser, deleteStatusCode,
             template="warning"
             width="150"
             height="20"
+            onClick={() => setOpenModal(true)}
           >
             Edit
           </JqxButton>
@@ -184,17 +186,18 @@ const Profile = ({ getReservations, reservations, deleteUser, deleteStatusCode,
             <div className="password">
               <h3>Confirm Password:</h3>
               <JqxPasswordInput
-                width="150"
-                height="20"
+                width="200"
+                height="30"
                 placeHolder=""
                 ref={jqxPassword}
               />
-              { wrongPassword && <h4>Password doesn&apos;t match</h4> }
+              { wrongPassword && <h6>Password doesn&apos;t match</h6> }
             </div>
           ) }
           {confrimDeletion && (
             <div className="confirm">
               <JqxButton
+                style={{ marginLeft: '10%' }}
                 template="danger"
                 width="150"
                 height="20"
@@ -231,6 +234,7 @@ const Profile = ({ getReservations, reservations, deleteUser, deleteStatusCode,
           </JqxButton>
         </div>
       </div>
+      {openModal && <ProfileModal setOpenModal={setOpenModal} />}
     </div>
   );
 };

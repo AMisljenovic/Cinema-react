@@ -1,4 +1,4 @@
-import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR, LOGGED_IN_AS_ADMIN, DELETE_USER, CLEAR } from 'actions/types';
+import { SIGN_IN, SIGN_OUT, SIGN_UP, SIGN_UP_ERROR, LOGGED_IN_AS_ADMIN, DELETE_USER, CLEAR, UPDATE_USER, CLEAR_USER } from 'actions/types';
 
 const url = `${process.env.REACT_APP_API_URL}/users`;
 let res: any;
@@ -122,3 +122,25 @@ export const deleteUser = (user) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const updateUser = (user) => async (dispatch) => {
+  try {
+    res = await fetch(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      method: 'PUT',
+      body: JSON.stringify(user),
+    });
+
+    dispatch({
+      type: UPDATE_USER,
+      payload: { updateStatusCode: res.status },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const clearAction = () => async (dispatch) => { dispatch({ type: CLEAR_USER }); };

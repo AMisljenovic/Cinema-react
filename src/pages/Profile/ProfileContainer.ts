@@ -9,4 +9,9 @@ const mapPropsToState = (state) => ({
   deleteReservationsStatusCode: state.reservations.deleteReservationsStatusCode,
 });
 
-export default connect(mapPropsToState, { getReservations, deleteUser, signOut, deleteReservations, clearAction })(Profile);
+export default connect(mapPropsToState, {
+  getReservations,
+  deleteUser,
+  signOut,
+  deleteReservations,
+  clearAction })(Profile);

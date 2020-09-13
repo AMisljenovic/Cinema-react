@@ -1,0 +1,18 @@
+.page-not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  margin-left: 20%
+}
+
+.page-not-found span {
+  color: #FFC700;
+  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-width: thin;
+  font-size: 100px;
+}
+
+.page-not-found .code {
+  margin-left: 27%;
+}
